@@ -1,4 +1,5 @@
 "use client";
+import { apiURL } from "@/constants";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -25,7 +26,7 @@ export default function PlayerInfo() {
       return;
     }
 
-    await fetch("http://localhost:8000/player-info", {
+    await fetch(`${apiURL}/player-info`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(form),
@@ -37,7 +38,7 @@ export default function PlayerInfo() {
   // preload data
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch("http://localhost:8000/player-info");
+      const response = await fetch(`${apiURL}/player-info`);
       const data = await response.json();
       setForm(data);
     };

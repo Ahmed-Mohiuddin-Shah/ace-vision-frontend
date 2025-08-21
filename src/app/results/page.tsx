@@ -1,21 +1,22 @@
+import { apiURL } from "@/constants";
 import Image from "next/image";
 
 export default function Results() {
   const results = [
     {
-      path: "http://localhost:8000/results/FINAL_heatmap.png",
+      path: `${apiURL}/results/FINAL_heatmap.png`,
       label: "Player Heatmap",
     },
     {
-      path: "http://localhost:8000/results/minimap_heatmap.png",
+      path: `${apiURL}/results/minimap_heatmap.png`,
       label: "Minimap Heatmap",
     },
     {
-      path: "http://localhost:8000/results/baseline_movement.png",
+      path: `${apiURL}/results/baseline_movement.png`,
       label: "Baseline Movement",
     },
     {
-      path: "http://localhost:8000/results/ball_speed.jpg",
+      path: `${apiURL}/results/ball_speed.jpg`,
       label: "Ball Speed",
     },
   ];
