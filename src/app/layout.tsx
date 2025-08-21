@@ -1,5 +1,9 @@
+"use client";
+
 import Link from "next/link";
 import "./globals.css";
+import { useEffect } from "react";
+import { apiURL } from "@/constants";
 
 export const metadata = {
   title: "AceVision",
@@ -11,6 +15,12 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  // Somewhere in a component or hook
+  useEffect(() => {
+    console.log("Backend URL:", process.env.NEXT_PUBLIC_BACKEND_URL);
+    console.log("Backend URL apiURL:", apiURL);
+  }, []);
+
   return (
     <html lang="en">
       <body className="bg-gray-100 min-h-screen flex flex-col">
