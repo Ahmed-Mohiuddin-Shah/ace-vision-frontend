@@ -1,5 +1,5 @@
 "use client";
-import { apiURL } from "@/constants";
+import { getAPIURL } from "@/constants";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -26,7 +26,7 @@ export default function PlayerInfo() {
       return;
     }
 
-    await fetch(`${apiURL}/player-info`, {
+    await fetch(`${getAPIURL()}/player-info`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(form),
@@ -38,7 +38,7 @@ export default function PlayerInfo() {
   // preload data
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch(`${apiURL}/player-info`);
+      const response = await fetch(`${getAPIURL()}/player-info`);
       const data = await response.json();
       setForm(data);
     };

@@ -1,6 +1,6 @@
 "use client";
 
-import { apiURL } from "@/constants";
+import { getAPIURL } from "@/constants";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -15,7 +15,7 @@ export default function Upload() {
     const formData = new FormData();
     formData.append("file", video);
 
-    const res = await fetch(`${apiURL}/upload-video`, {
+    const res = await fetch(`${getAPIURL()}/upload-video`, {
       method: "POST",
       body: formData,
     });
@@ -24,7 +24,7 @@ export default function Upload() {
       // start polling backend for progress
       const p = 0;
       const interval = setInterval(async () => {
-        const progressRes = await fetch(`${apiURL}/progress`);
+        const progressRes = await fetch(`${getAPIURL()}/progress`);
         const { value } = await progressRes.json();
         setProgress(value);
         if (value >= 100) {
