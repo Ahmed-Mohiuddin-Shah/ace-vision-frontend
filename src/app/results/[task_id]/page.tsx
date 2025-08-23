@@ -1,12 +1,12 @@
 import { getAPIURL } from "@/constants";
 import Image from "next/image";
 
-export default function TaskResultsPage({
+export default async function TaskResultsPage({
   params,
 }: {
-  params: { task_id: string };
+  params: Promise<{ task_id: string }>;
 }) {
-  const { task_id } = params;
+  const { task_id } = await params;
 
   const results = [
     {
