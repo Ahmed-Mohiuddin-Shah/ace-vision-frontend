@@ -8,6 +8,7 @@ export default function Upload() {
   const router = useRouter();
   const [video, setVideo] = useState<File | null>(null);
   const [progress, setProgress] = useState<number>(0);
+  const [status, setStatus] = useState<string>("");
 
   const handleUpload = async () => {
     if (!video) return;
@@ -22,14 +23,24 @@ export default function Upload() {
 
     if (res.ok) {
       // start polling backend for progress
-      const p = 0;
+
+      // @app.get("/progress/{task_id}")
+      // def get_progress(task_id: str):
+      // return progress_store.get(task_id, {"progress": 0, "status": "unknown"})
+      // GET THE task_id from the response
+      const { task_id } = await res.json();
       const interval = setInterval(async () => {
-        const progressRes = await fetch(`${getAPIURL()}/progress`);
-        const { value } = await progressRes.json();
-        setProgress(value);
-        if (value >= 100) {
+        const progressRes = await fetch(`${getAPIURL()}/progress/${task_id}`);
+        if (!progressRes.ok) return;
+        const { progress, status } = await progressRes.json();
+        setProgress(progress);
+        setStatus(status);
+        if (progress >= 100) {
           clearInterval(interval);
-          router.push("/results");
+          //wait a bit for the results to be ready
+          setTimeout(() => {
+            router.push("/results");
+          }, 2000);
         }
       }, 1000);
     }
@@ -68,7 +79,7 @@ export default function Upload() {
             className="bg-green-600 text-xs font-bold text-center text-white p-1 rounded-full"
             style={{ width: `${progress}%` }}
           >
-            {progress}%
+            {progress}% - {status}
           </div>
         </div>
       )}
