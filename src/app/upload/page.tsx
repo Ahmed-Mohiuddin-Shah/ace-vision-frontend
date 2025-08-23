@@ -49,20 +49,9 @@ export default function Upload() {
   return (
     <div className="max-w-lg mx-auto mt-10 p-6 shadow rounded-2xl text-center">
       <h1 className="text-2xl font-bold mb-4">Upload Your Video</h1>
-      <input
-        type="file"
-        accept="video/*"
-        onChange={(e) => setVideo(e.target.files?.[0] || null)}
-      />
-      <button
-        onClick={handleUpload}
-        className="mt-4 w-full bg-green-600 text-white py-2 rounded-lg"
-      >
-        Process Video
-      </button>
 
       {video && (
-        <div className="mt-4">
+        <div className="mt-4 mb-2">
           <video
             src={URL.createObjectURL(video)}
             controls
@@ -70,6 +59,18 @@ export default function Upload() {
           />
         </div>
       )}
+      <input
+        type="file"
+        accept="video/*"
+        onChange={(e) => setVideo(e.target.files?.[0] || null)}
+        className="mb-2 w-full bg-gray-600 text-white py-2 rounded-lg p-2 cursor-pointer"
+      />
+      <button
+        onClick={handleUpload}
+        className="cursor-pointer mt-4 w-full bg-green-600 text-white py-2 rounded-lg"
+      >
+        Process Video
+      </button>
 
       {/* Progress bar */}
 
