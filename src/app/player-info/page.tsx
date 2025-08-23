@@ -13,6 +13,7 @@ export default function PlayerInfo() {
     gender: "",
     dominant_hand: "",
   });
+  const [loading, setLoading] = useState(true);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -26,11 +27,15 @@ export default function PlayerInfo() {
       return;
     }
 
+    setLoading(true);
+
     await fetch(`${getAPIURL()}/player-info`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(form),
     });
+
+    setLoading(false);
 
     router.push("/upload");
   };
@@ -41,6 +46,7 @@ export default function PlayerInfo() {
       const response = await fetch(`${getAPIURL()}/player-info`);
       const data = await response.json();
       setForm(data);
+      setLoading(false);
     };
     fetchData();
   }, []);
@@ -105,9 +111,9 @@ export default function PlayerInfo() {
       </div>
       <button
         onClick={handleSubmit}
-        className="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg"
+        className="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg cursor-pointer"
       >
-        Save & Continue
+        {loading ? "Saving..." : "Save & Continue"}
       </button>
     </div>
   );
