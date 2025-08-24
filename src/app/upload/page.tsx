@@ -68,6 +68,12 @@ export default function Upload() {
         </>
       )}
 
+      {isUploading && (
+        <div className="w-full flex items-center justify-center p-2">
+          Uploading
+        </div>
+      )}
+
       {/* Progress bar */}
 
       {progress > 0 && (
