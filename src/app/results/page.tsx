@@ -6,6 +6,7 @@ import Link from "next/link";
 type ResultItem = {
   progress: number;
   status: string;
+  eta?: string | null;
   result_file?: string | null;
 };
 type Results = Record<string, ResultItem>;
@@ -38,7 +39,7 @@ const ResultsPage: React.FC = () => {
   useEffect(() => {
     // Find unfinished tasks
     const unfinished = Object.entries(results).filter(
-      ([, v]) => v.status !== "completed"
+      ([, v]) => v.status !== "completed" && v.progress !== -1
     );
     if (unfinished.length === 0) {
       if (intervalRef.current) clearInterval(intervalRef.current);
@@ -113,7 +114,9 @@ const ResultsPage: React.FC = () => {
                 <div className="w-full flex flex-col items-center">
                   <div className="w-full h-3 bg-gray-200 rounded-full mt-2">
                     <div
-                      className="h-3 bg-blue-500 rounded-full transition-all"
+                      className={`h-3 ${
+                        result.progress === -1 ? "bg-red-500" : "bg-blue-500"
+                      } rounded-full transition-all`}
                       style={{ width: `${result.progress}%` }}
                     />
                   </div>
@@ -123,6 +126,21 @@ const ResultsPage: React.FC = () => {
                     </span>
                     <span className="text-gray-600">{result.progress}%</span>
                   </div>
+                  {result.eta !== null &&
+                    result.eta !== undefined &&
+                    result.progress !== -1 && (
+                      <div className="text-gray-500 text-xs mt-1">
+                        ETA: {
+                          // ETA is in ISO format
+                          new Date(result.eta).toLocaleString()
+                        }
+                      </div>
+                    )}
+                  {result.progress === -1 && (
+                    <div className="text-red-500 text-xs mt-1">
+                      Task failed.
+                    </div>
+                  )}
                 </div>
               )}
             </div>
